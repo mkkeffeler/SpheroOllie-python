@@ -2,7 +2,7 @@
 
 
 from bluepy import btle
-# import bluetooth
+#import bluetooth
 import sys
 import struct
 import time
@@ -149,11 +149,11 @@ class BTInterface(btle.DefaultDelegate):
 
         # This startup sequence is also identical to the one for Ollie.
         # It even uses the same unlock code.
-        print 'Sending antidos'
+        print ('Sending antidos')
         self.antidos.write('011i3', withResponse=True)
-        print 'Sending txpower'
+        print ('Sending txpower')
         self.txpower.write('\x0007', withResponse=True)
-        print 'Sending wakecpu'
+        print ('Sending wakecpu')
         self.wakecpu.write('\x01', withResponse=True)
 
     def getSpheroCharacteristic(self, fragment):
@@ -161,9 +161,9 @@ class BTInterface(btle.DefaultDelegate):
 
     def dumpCharacteristics(self):
         for s in self.peripheral.getServices():
-            print s
+            print (s)
             for c in s.getCharacteristics():
-                print c, hex(c.handle)
+                print (c, hex(c.handle))
 
     def cmd(self, did, cid, data=[], answer=True, resetTimeout=True):
         # Commands are as specified in Sphero API 1.50 PDF.
@@ -178,7 +178,7 @@ class BTInterface(btle.DefaultDelegate):
         chk ^= 255
 
         msg = [0xff, sop2, did, cid, seq, dlen] + data + [chk]
-        print 'cmd:', ' '.join([chr(c).encode('hex') for c in msg])
+        print ('cmd:', ' '.join([chr(c).encode('hex') for c in msg]))
         # Note: withResponse is very important. Most commands won't work without it.
         self.roll.write(''.join([chr(c) for c in msg]), withResponse=True)
 
@@ -240,8 +240,8 @@ class Sphero(threading.Thread):
         threading.Thread.__init__(self)
         self.target_name = target_name
         self.bt = None
-        # Use "sudo hcitool lescan" to find Ollie's MAC address input it at deviceAddress = 
-        self.deviceAddress = 'DF:79:DD:9C:B6:1D'
+        # Use "sudo hcitool lescan" to find Ollie's MAC address input it at deviceAddress = 'EC:61:42:58:09:41'
+        self.deviceAddress = 'EC:61:42:58:09:41'
         self.shutdown = False
         self.is_connected = False
         self.mask_list = None
@@ -575,7 +575,7 @@ class Sphero(threading.Thread):
         self.create_mask_list(sample_mask1, sample_mask2)
         self.stream_mask1 = sample_mask1
         self.stream_mask2 = sample_mask2
-        print data
+        print (data)
         self.send(data, response)
 
     def set_filtered_data_strm(self, sample_div, sample_frames, pcnt, response):
@@ -738,7 +738,7 @@ class Sphero(threading.Thread):
         brake, 0x04 - ignored.
         :param power: 0-255 scalar value (units?).
         """
-        self.send(self.pack_cmd(REQ['CMD_RAW_MOTORS'], [l_mode, l_power, r_mode, r_power]), response)
+        self.send(self.pack_cmd(REQ['CMD_SET_RAW_MOTORS'], [l_mode, l_power, r_mode, r_power]), response)
 
     def send(self, data, response):
         """
@@ -829,7 +829,7 @@ class Sphero(threading.Thread):
         data = self.raw_data_buf
         while len(data) > 5:
             if data[:2] == RECV['SYNC']:
-                print "got response packet"
+                print ("got response packet")
                 # response packet
                 data_length = ord(data[4])
                 if data_length + 5 <= len(data):
@@ -857,7 +857,7 @@ class Sphero(threading.Thread):
                         IDCODE['PWR_NOTIFY']):
                     self._async_callback_dict[IDCODE['PWR_NOTIFY']](self.parse_pwr_notify(data_packet, data_length))
                 else:
-                    print "got a packet that isn't streaming"
+                    print ("got a packet that isn't streaming")
             else:
                 raise RuntimeError("Bad SOF : " + self.data2hexstr(data))
         self.raw_data_buf = data
@@ -918,8 +918,8 @@ def parse_data_strm(self, data, data_length):
     for i in range((data_length - 1) / 2):
         unpack = struct.unpack_from('>h', ''.join(data[5 + 2 * i:]))
         output[self.mask_list[i]] = unpack[0]
-    print self.mask_list
-    print output
+    print (self.mask_list)
+    print (output)
     return output
 
 
