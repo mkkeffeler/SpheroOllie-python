@@ -3,13 +3,13 @@ A library of functions to be used with the Sphero Ollie!
 
 #Setup
 Run the following commands in your terminal. You must be running this on a computer that has Bluetooth LE (Different from standard bluetooth)
-'sudo apt-get install python-pip libglib2.0-dev build-essential git'
-'sudo pip install bluepy'
-'git clone https://github.com/mkkeffeler/SpheroOllie-python'
-'git checkout patch_branch'
+`sudo apt-get install python-pip libglib2.0-dev build-essential git`
+`sudo pip install bluepy`
+`git clone https://github.com/mkkeffeler/SpheroOllie-python`
+`git checkout patch_branch`
 
 #Getting Ready
-Use 'sudo hcitool lescan' to find Ollie's MAC address 
+Use `sudo hcitool lescan` to find Ollie's MAC address 
 
 input this device address "`deviceAddress =`" (line 244) in the Sphero class in Ollie_driver.py
 
