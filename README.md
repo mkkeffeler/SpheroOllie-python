@@ -45,3 +45,11 @@ Tie in the btle handleNotifcations to Sphero response API
 
  - getting sensor info, command responses, etc. back from Ollie
 
+#Common Errors
+If `sudo hcitool lescan` throws an error involving 'input/output error' perform the following commands and try again
+
+`sudo systemctl daemon-reload` <br></br>
+`sudo hciconfig hci0 down` <br></br>
+`sudo hciconfig hci0 up` <br></br>
+
+If that doesn't work please open an issue with details.
